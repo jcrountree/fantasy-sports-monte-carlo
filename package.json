@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "nconf": "^0.8.4",
+    "winston": "^2.2.0"
+  },
+  "name": "fantasy-sports-monte-carlo",
+  "description": "This is a simple node.js app for performing a Monte Carlo simulation to predict the outcome of your Fantasy season.",
+  "version": "0.0.0",
+  "main": "app.coffee",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcrountree/fantasy-sports-monte-carlo.git"
+  },
+  "keywords": [
+    "fantasy",
+    "football"
+  ],
+  "author": "Jimmy Rountree",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcrountree/fantasy-sports-monte-carlo/issues"
+  },
+  "homepage": "https://github.com/jcrountree/fantasy-sports-monte-carlo#readme"
+}
