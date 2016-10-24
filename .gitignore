@@ -39,6 +39,7 @@ jspm_packages
 # IDE Artifacts
 .idea/
 
-# Compile coffeescript
+# Compiled scripts/css
 *.js
 *.js.map
+*.css

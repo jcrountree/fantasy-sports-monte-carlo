@@ -1,6 +1,9 @@
-
+express = require 'express'
 winston = require 'winston'
 nconf = require 'nconf'
+bodyParser = require 'body-parser'
+cookieParser = require 'cookie-parser'
+path = require 'path'
 
 ###
   Initialize nfconf using hierarchy
@@ -27,10 +30,37 @@ winston.add winston.transports.Console,
   humanReadableUnhandledException : true
   stderrLevels : []
 
-winston.error 'test error'
-winston.warn 'test warn'
-winston.info 'Test info'
-winston.verbose 'test verbose'
-winston.debug 'test debug'
-winston.silly 'test silly'
+winston.emitErrs = true
 
+###
+  Configure winston to be logger for morgan, which will be the http logger
+  for the express app.
+    1. Set up the logger options we want
+    2. Add a logger.stream.write method, because that's the function called by
+        morgan.
+###
+logger = new winston.Logger
+  transports: [
+    new winston.transports.Console
+      level: 'debug'
+      handleExceptions: true
+      json: false
+      colorize: true
+  ],
+  exitOnError: false
+
+logger.stream =
+  write: (message)->
+    logger.info message
+
+###
+  Create express app. Set the standard libraries.
+###
+app = express()
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'pug')
+app.use(require('morgan')('combined', { stream : logger.stream }))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded( extended: false ))
+app.use(cookieParser())
+app.use(express.static(path.join(__dirname, 'public')))
