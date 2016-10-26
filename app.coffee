@@ -64,3 +64,41 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded( extended: false ))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
+
+###
+  Routes
+###
+routes = require './routes/index'
+app.use('/', routes)
+
+###
+  catch 404s
+###
+app.use (req, res, next) ->
+  err = new Error('Not Found')
+  err.status = 404
+  next(err)
+
+###
+  In development mode, print the stack trace
+###
+app.use (err, req, res) ->
+  res.status(err.status or 500)
+  res.render 'errors/error',
+    message: err.message,
+    error: if (nconf.get('NODE_ENV') is 'development') then err else {}
+
+debug = require('debug', 'fantasy-sports-monte-carlo')
+http = require 'http'
+
+port = nconf.get 'PORT'
+app.set('port', port)
+server = http.createServer(app)
+server.listen port
+
+server.on 'error', (error) ->
+  if error.syscall isnt 'listen'
+    throw error
+
+server.on 'listening', () ->
+  winston.info 'Listening on ' + port
