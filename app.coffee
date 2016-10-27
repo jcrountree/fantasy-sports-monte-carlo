@@ -82,13 +82,12 @@ app.use (req, res, next) ->
 ###
   In development mode, print the stack trace
 ###
-app.use (err, req, res) ->
+app.use (err, req, res, next) ->
   res.status(err.status or 500)
   res.render 'errors/error',
     message: err.message,
     error: if (nconf.get('NODE_ENV') is 'development') then err else {}
 
-debug = require('debug', 'fantasy-sports-monte-carlo')
 http = require 'http'
 
 port = nconf.get 'PORT'
