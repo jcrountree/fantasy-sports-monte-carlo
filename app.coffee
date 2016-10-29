@@ -42,16 +42,16 @@ winston.emitErrs = true
 logger = new winston.Logger
   transports: [
     new winston.transports.Console
-      level: 'debug'
-      handleExceptions: true
-      json: false
-      colorize: true
+      level : 'debug'
+      handleExceptions : true
+      json : false
+      showLevel : false
   ],
   exitOnError: false
 
 logger.stream =
   write: (message)->
-    logger.info message
+    logger.info(message.replace(/\n$/, ''));
 
 ###
   Create express app. Set the standard libraries.
